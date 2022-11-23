@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
     public void removeItem(int position) {
         _itemList.remove(position);
         _adapter.notifyItemRemoved(position);
+        saveData();
     }
 
 
