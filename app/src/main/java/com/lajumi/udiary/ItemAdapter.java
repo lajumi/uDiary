@@ -45,6 +45,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
         Item currentItem = _itemList.get(position);
 
         holder.getTextView().setText(currentItem.getText());
+        holder.getTextView().setTextColor(currentItem.getColor());
     }
 
     @Override

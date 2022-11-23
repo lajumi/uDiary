@@ -1,6 +1,8 @@
 package com.lajumi.udiary;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,7 +20,6 @@ public class MainActivity extends AppCompatActivity {
     public static final String SHARED_PREFS = "sharedPrefs";
     public static final String ITEM_LIST = "_itemList";
     private ArrayList<Item> _itemList;
-
     private FloatingActionButton _fab;
     private RecyclerView _recyclerView;
     private RecyclerView.Adapter _adapter;
@@ -38,19 +39,10 @@ public class MainActivity extends AppCompatActivity {
             addItemSheet.show(getSupportFragmentManager(), "TAG");
         });
 
-
+        createSwipeFunctionality();
     }
 
 
-    private void createRecyclerView() {
-        _recyclerView = findViewById(R.id.recyclerView);
-        //_recyclerView.setHasFixedSize(true);
-        _layoutManager = new LinearLayoutManager(this);
-        _adapter = new ItemAdapter(_itemList);
-
-        _recyclerView.setLayoutManager(_layoutManager);
-        _recyclerView.setAdapter(_adapter);
-    }
 
     public void insertItem(int position, Item item) {
         _itemList.add(position, item);
@@ -90,6 +82,32 @@ public class MainActivity extends AppCompatActivity {
         if (_itemList == null) {
             _itemList = new ArrayList<>();
         }
+    }
+
+    private void createRecyclerView() {
+        _recyclerView = findViewById(R.id.recyclerView);
+        //_recyclerView.setHasFixedSize(true);
+        _layoutManager = new LinearLayoutManager(this);
+        _adapter = new ItemAdapter(_itemList);
+
+        _recyclerView.setLayoutManager(_layoutManager);
+        _recyclerView.setAdapter(_adapter);
+    }
+
+    private void createSwipeFunctionality() {
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
+                ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                int position = viewHolder.getAdapterPosition();
+                removeItem(position);
+            }
+        }).attachToRecyclerView(_recyclerView);
     }
 }
 
