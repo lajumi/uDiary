@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<Item> _itemList;
     private FloatingActionButton _fab;
     private RecyclerView _recyclerView;
-    private RecyclerView.Adapter _adapter;
+    private RecyclerView.Adapter<ItemAdapter.ItemViewHolder> _adapter;
     private RecyclerView.LayoutManager _layoutManager;
 
     @Override
